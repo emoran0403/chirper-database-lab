@@ -1,4 +1,5 @@
 import react from "react";
+import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import * as Types from "../types";
 
@@ -11,49 +12,79 @@ const Inputs = () => {
   const [userIsUpdating, setUserIsUpdating] = useState<boolean>(false);
   const [userIsDeleting, setUserIsDeleting] = useState<boolean>(false);
 
+  // useEffect(() => {}, [userIsCreating, userIsReading, userIsUpdating, userIsDeleting]);
+  // might need this later
+
   /*************************  Input Boxes  ***********************/
 
-  const handletextBoxContentChange = (e) => {
+  const handletextBoxContentChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setTextBoxContent(e.target.value);
   };
 
-  const handleIDBoxContentChange = (e) => {
+  const handleIDBoxContentChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setIDBoxContent(e.target.value);
   };
 
-  const handleLocationBoxContentChange = (e) => {
+  const handleLocationBoxContentChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setLocationBoxContent(e.target.value);
   };
 
   /*************************  CRUD Buttons  ***********************/
 
-  const handleUserIsCreating = () => {
+  const handleUserIsCreating = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     return setUserIsCreating(!userIsCreating);
   };
 
-  const handleUserIsReading = () => {
+  const handleUserIsReading = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     return setUserIsReading(!userIsReading);
   };
 
-  const handleUserIsUpdating = () => {
+  const handleUserIsUpdating = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     return setUserIsUpdating(!userIsUpdating);
   };
 
-  const handleUserIsDeleting = () => {
+  const handleUserIsDeleting = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     return setUserIsDeleting(!userIsDeleting);
   };
 
   /*************************  Submit / Cancel Buttons  ***********************/
 
-  const handleCancelButton = () => {
+  const handleCancelButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    clearFieldsAndEnableButtons();
+  };
+
+  const handleSubmitButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // do submit stuff
+    clearFieldsAndEnableButtons();
+  };
+
+  /*************************  Helper Functions  ***********************/
+
+  const clearFieldsAndEnableButtons = () => {
+    // helper function that clears the input fields and enables buttons
+    clearInputs();
+    enableAllButtons();
+  };
+
+  const enableAllButtons = () => {
+    // helper function to enable all buttons
     setUserIsCreating(false);
     setUserIsReading(false);
     setUserIsUpdating(false);
     setUserIsDeleting(false);
   };
 
-  const handleSubmitButton = () => {
-    // do submit stuff
+  const clearInputs = () => {
+    // helper function to clear input fields
+    setTextBoxContent("");
+    setIDBoxContent("");
+    setLocationBoxContent("");
   };
 
   return (
@@ -70,22 +101,22 @@ const Inputs = () => {
             placeholder="Chirp box!"
             type="text"
           />
-          <button id="createBtn" onClick={handleUserIsCreating} className="btn-primary">
+          <button id="createBtn" disabled={userIsReading || userIsUpdating || userIsDeleting} onClick={(e) => handleUserIsCreating(e)} className="btn-primary">
             Create
           </button>
-          <button id="readBtn" onClick={handleUserIsReading} className="btn-primary">
+          <button id="readBtn" disabled={userIsCreating || userIsUpdating || userIsDeleting} onClick={(e) => handleUserIsReading(e)} className="btn-primary">
             Read
           </button>
-          <button id="updateBtn" onClick={handleUserIsUpdating} className="btn-primary">
+          <button id="updateBtn" disabled={userIsCreating || userIsReading || userIsDeleting} onClick={(e) => handleUserIsUpdating(e)} className="btn-primary">
             Update
           </button>
-          <button id="deleteBtn" onClick={handleUserIsDeleting} className="btn-primary">
+          <button id="deleteBtn" disabled={userIsCreating || userIsReading || userIsUpdating} onClick={(e) => handleUserIsDeleting(e)} className="btn-primary">
             Delete
           </button>
-          <button id="submitBtn" onClick={handleSubmitButton} className="btn-primary">
+          <button id="submitBtn" onClick={(e) => handleSubmitButton(e)} className="btn-primary">
             Submit
           </button>
-          <button id="cancelBtn" onClick={handleCancelButton} className="btn-primary">
+          <button id="cancelBtn" onClick={(e) => handleCancelButton(e)} className="btn-primary">
             Cancel
           </button>
         </form>
