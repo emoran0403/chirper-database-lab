@@ -33,20 +33,3 @@ export default {
 };
 
 
-/**
- * todo - finish create/post  route
- * todo - make a component to accept the info for the request
- * 
- * todo - finish update/put  route
- * todo - make a component to accept the info for the request
- * 
- * todo - these could probably be the same component
- * 
- * todo - test endpoints in POSTMAN
- * 
- * todo - work on advanced section
- * 
- * 
- * 
- * 
- */
