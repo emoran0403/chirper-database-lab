@@ -4,8 +4,8 @@ import { Query } from ".";
 //*************************  CREATE  *****************************/
 
 // insert into chirps (id: number, userid: number, content: string, location: string) values (id, userid, content, location);
-const writeOne = async (id: number, userid: number, content: string, location: string) =>
-  Query("INSERT INTO chirps (id, userid, content, location) VALUES (?, ?, ?, ?)", [id, userid, content, location]);
+const writeOne = async (userid: number, content: string, location: string) =>
+  Query("INSERT INTO chirps (id, userid, content, location) VALUES (?, ?, ?)", [userid, content, location]); // id will be provided by the DB
 
 //*************************  READ  *****************************/
 

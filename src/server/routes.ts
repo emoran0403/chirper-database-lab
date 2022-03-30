@@ -10,7 +10,7 @@ router.post("/api/chirps/newchirp", async (req, res) => {
   try {
     //this is where i'll need to use   writeOne = async (id: number, userid: number, content: string, location: string)
 
-    res.status(200);
+    res.status(200).json({ message: "New Chirp Added!" });
   } catch (error) {
     console.log(error); // if an error happens, log the error
     res.sendStatus(500); // send status of 500
