@@ -1,5 +1,6 @@
 import * as express from "express";
 import db from "./db";
+import { MysqlError } from "mysql";
 
 const router = express.Router();
 
@@ -22,10 +23,17 @@ router.post("/api/chirps/newchirp", async (req, res) => {
 // Route for getting all chirps
 router.get("/api/chirps", async (req, res) => {
   try {
-    res.json(await db.Chirps.readAll()); // when we go to /api/chirps, we want to make a Chirps query of all chirps
+    const data = await db.Chirps.readAll();
+
+    // use a for each loop to remove data we dont need from the db response
+
+    res.json(data); // when we go to /api/chirps, we want to make a Chirps query of all chirps
   } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    res.sendStatus(500); // send status of 500
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.sendStatus(500).json({ message: "Pizza peepee spaghetti poopoo error happened here" }); // send status of 500
   }
 });
 
