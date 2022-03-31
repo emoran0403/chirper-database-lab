@@ -12,15 +12,16 @@ const Inputs = () => {
   const [userIsUpdating, setUserIsUpdating] = useState<boolean>(false);
   const [userIsDeleting, setUserIsDeleting] = useState<boolean>(false);
 
-  // lets us conditionally render the crud buttons - when one is clicked, hide them all
+  // lets us conditionally render the crud buttons - when one CRUD button is clicked, hide all CRUD buttons
   // evaluates to true when user is doing any CRUD operation
-  // { !crudButtonClicked && ( crud button JSX here)} // when user is doing CRUD, hide the CRUD buttons
+  // { !crudButtonClicked && ( crud button JSX here)}
   let crudButtonClicked: boolean = userIsCreating || userIsReading || userIsUpdating || userIsDeleting;
 
-  // lets us conditionally render the submit and cancel buttons - when a crud button is clicked, show them all
+  // lets us conditionally render the submit and cancel buttons - when a CRUD button is clicked, show submit and cancel buttons
   // submit and cancel button functionality includes resetting crud buttons to false, which shows crud buttons and subsequently hides submit / cancel
-  // { !hideSubmitCancelButtons && ( submit and cancel JSX here)} // when user is doing CRUD, show the submit and cancel buttons
-  let hidingSubmitCancelButtons: boolean = !userIsCreating || !userIsReading || !userIsUpdating || !userIsDeleting;
+  // evaluates to true when user is doing any CRUD operation
+  // { !hideSubmitCancelButtons && ( submit and cancel JSX here)}
+  let hidingSubmitCancelButtons: boolean = userIsCreating || userIsReading || userIsUpdating || userIsDeleting;
 
   /******************************  Conditional render logic for input boxes  **************************/
 
@@ -35,15 +36,6 @@ const Inputs = () => {
   // evaluates to true when user is reading OR deleting
   // { !showLocationBox && (locationBox JSX here)} // used to hide the locationBox when user is reading or deleting
   let showLocationBox: boolean = !userIsReading || !userIsDeleting;
-
-  /**
-   * chirp - show on create and update - hide on read and delete
-   * id - show on read and update and delete - hide on create
-   * location - show on create and update - hide on read and delete
-   */
-
-  // useEffect(() => {}, [userIsCreating, userIsReading, userIsUpdating, userIsDeleting]);
-  // might need this later
 
   /*************************  Input Boxes  ***********************/
 
@@ -83,14 +75,28 @@ const Inputs = () => {
 
   /*************************  Submit / Cancel Buttons  ***********************/
 
-  const handleCancelButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmitButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    if (textBoxContent) {
+      // If user does not provide content, alert and do not proceed
+      alert("Your Chirp needs more text!");
+      return;
+    }
+
+    if (locationBoxContent) {
+      // If user does not provide a location, alert and do not proceed
+      alert("Where are you Chirping from?");
+      return;
+    }
+
+    // do submit stuff here
+
     clearFieldsAndEnableButtons();
   };
 
-  const handleSubmitButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCancelButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // do submit stuff
     clearFieldsAndEnableButtons();
   };
 
@@ -144,7 +150,7 @@ const Inputs = () => {
 
           {/*************************************  SUBMIT / CANCEL BUTTONS  ***************************************/}
 
-          {!hidingSubmitCancelButtons && (
+          {hidingSubmitCancelButtons && (
             <>
               <button id="submitBtn" onClick={(e) => handleSubmitButton(e)} className="btn-primary">
                 Submit
@@ -192,3 +198,12 @@ export default Inputs;
  */
 
 // { condition && (dothiswhentrue)} //shows jsx when condition is true.  if false, returns nothing
+
+/**
+ * chirp - show on create and update - hide on read and delete
+ * id - show on read and update and delete - hide on create
+ * location - show on create and update - hide on read and delete
+ */
+
+// useEffect(() => {}, [userIsCreating, userIsReading, userIsUpdating, userIsDeleting]);
+// might need this later
