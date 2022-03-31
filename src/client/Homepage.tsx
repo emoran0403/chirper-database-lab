@@ -1,4 +1,4 @@
-import react from "react";
+import React, { ChangeEvent, MouseEvent } from "react";
 import { useState, useEffect } from "react";
 import * as Types from "../types";
 
@@ -7,15 +7,16 @@ const Homepage = () => {
   const [password, setPassword] = useState<string>("");
   const [loggedIn, setloggedIn] = useState<boolean>(false);
 
-  const handleUsernameChange = (e) => {
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setUsername(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setUsername(e.target.value);
   };
 
-  const handleloggedIn = (e) => {
+  const handleloggedIn = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     return setloggedIn(!loggedIn);
   };
 

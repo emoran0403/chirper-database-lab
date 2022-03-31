@@ -12,3 +12,8 @@ export interface IChirp {
   location: string;
   _created: Date | string;
 }
+
+export interface INewChirpInfo {
+  content: string;
+  location: string;
+}

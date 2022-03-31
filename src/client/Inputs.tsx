@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import * as Types from "../types";
@@ -25,7 +25,7 @@ const Inputs = () => {
   // { !hideSubmitCancelButtons && ( submit and cancel JSX here)}
   let hidingSubmitCancelButtons: boolean = userIsCreating || userIsReading || userIsUpdating || userIsDeleting;
 
-  // ln Conditional render logic for input boxes  ****************************************************************************/
+  // ln Conditional render logic for input boxes  **********************************************************************************************/
 
   // evaluates to true when user is reading OR deleting
   // { !showChirpBox && (chirpBox JSX here)} // used to hide the chirpBox when user is reading or deleting
@@ -39,7 +39,7 @@ const Inputs = () => {
   // { !showLocationBox && (locationBox JSX here)} // used to hide the locationBox when user is reading or deleting
   let showLocationBox: boolean = !userIsReading || !userIsDeleting;
 
-  // ln Input Boxes  *************************************************************************************************************/
+  // ln Input Boxes  ****************************************************************************************************************************/
 
   const handletextBoxContentChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setTextBoxContent(e.target.value);
@@ -53,7 +53,7 @@ const Inputs = () => {
     return setLocationBoxContent(e.target.value);
   };
 
-  // ln CRUD Buttons  *****************************************************************************************************/
+  // ln CRUD Buttons  ***************************************************************************************************************************/
 
   const handleUserIsCreating = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -75,7 +75,7 @@ const Inputs = () => {
     return setUserIsDeleting(!userIsDeleting);
   };
 
-  // ln Submit / Cancel Buttons  ********************************************************************************************************/
+  // ln Submit / Cancel Buttons  ****************************************************************************************************************/
 
   const handleSubmitButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -102,7 +102,7 @@ const Inputs = () => {
     clearFieldsAndEnableButtons();
   };
 
-  // ln Helper Functions  ***************************************************************************************************/
+  // ln Helper Functions  *************************************************************************************************************/
 
   const clearFieldsAndEnableButtons = () => {
     // helper function that clears the input fields and enables buttons
