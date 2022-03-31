@@ -12,6 +12,8 @@ const Inputs = () => {
   const [userIsUpdating, setUserIsUpdating] = useState<boolean>(false);
   const [userIsDeleting, setUserIsDeleting] = useState<boolean>(false);
 
+  // ln Conditional render logic for CRUD / Submit / Cancel buttons  ****************************************************************************/
+
   // lets us conditionally render the crud buttons - when one CRUD button is clicked, hide all CRUD buttons
   // evaluates to true when user is doing any CRUD operation
   // { !crudButtonClicked && ( crud button JSX here)}
@@ -23,7 +25,7 @@ const Inputs = () => {
   // { !hideSubmitCancelButtons && ( submit and cancel JSX here)}
   let hidingSubmitCancelButtons: boolean = userIsCreating || userIsReading || userIsUpdating || userIsDeleting;
 
-  /******************************  Conditional render logic for input boxes  **************************/
+  // ln Conditional render logic for input boxes  ****************************************************************************/
 
   // evaluates to true when user is reading OR deleting
   // { !showChirpBox && (chirpBox JSX here)} // used to hide the chirpBox when user is reading or deleting
@@ -37,7 +39,7 @@ const Inputs = () => {
   // { !showLocationBox && (locationBox JSX here)} // used to hide the locationBox when user is reading or deleting
   let showLocationBox: boolean = !userIsReading || !userIsDeleting;
 
-  /*************************  Input Boxes  ***********************/
+  // ln Input Boxes  *************************************************************************************************************/
 
   const handletextBoxContentChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setTextBoxContent(e.target.value);
@@ -51,7 +53,7 @@ const Inputs = () => {
     return setLocationBoxContent(e.target.value);
   };
 
-  /*************************  CRUD Buttons  ***********************/
+  // ln CRUD Buttons  *****************************************************************************************************/
 
   const handleUserIsCreating = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -73,7 +75,7 @@ const Inputs = () => {
     return setUserIsDeleting(!userIsDeleting);
   };
 
-  /*************************  Submit / Cancel Buttons  ***********************/
+  // ln Submit / Cancel Buttons  ********************************************************************************************************/
 
   const handleSubmitButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -100,7 +102,7 @@ const Inputs = () => {
     clearFieldsAndEnableButtons();
   };
 
-  /*************************  Helper Functions  ***********************/
+  // ln Helper Functions  ***************************************************************************************************/
 
   const clearFieldsAndEnableButtons = () => {
     // helper function that clears the input fields and enables buttons
@@ -129,7 +131,7 @@ const Inputs = () => {
         <form>
           <div>Click a button to get started</div>
 
-          {/*************************************  CRUD BUTTONS  ***************************************/}
+          {/************************************  CRUD BUTTONS  ***************************************/}
 
           {!crudButtonClicked && (
             <>
