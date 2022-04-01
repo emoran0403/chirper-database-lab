@@ -27,20 +27,21 @@ const Inputs = () => {
 
   // ln Conditional render logic for input boxes  **********************************************************************************************/
 
-  // evaluates to true when user is reading OR deleting
-  // used to hide the chirpBox when user is reading or deleting
-  // { !showChirpBox && (chirpBox JSX here)}
-  let showChirpBox: boolean = userIsReading || userIsDeleting;
+  // user needs textbox when creating or updating, user does not need textbox when reading or deleting
+  // { !showTextBox && (chirpBox JSX here)}
+  // evaluates to true when user does need this rendered
+  let showTextBox: boolean = userIsCreating || userIsUpdating;
 
-  // evaluates to true when user is creating
-  // used to hide the IDBox when the user is creating
+  // user needs IDbox when reading or updating or deleting, user does not need IDbox when creating
   // { !showIDBox && (IDBox JSX here)}
-  let showIDBox: boolean = !userIsCreating;
+  // evaluates to true when user does need this rendered
+  let showIDBox: boolean = userIsCreating || userIsUpdating || userIsReading;
 
-  // evaluates to true when user is reading OR deleting
-  // used to hide the locationBox when user is reading or deleting
+  // user needs location box when creating or updating, user does not need location box when reading or deleting
   // { !showLocationBox && (locationBox JSX here)}
-  let showLocationBox: boolean = !userIsReading || !userIsDeleting;
+  // evaluates to true when user does need this rendered
+
+  let showLocationBox: boolean = userIsCreating || userIsUpdating;
 
   // ln Input Boxes  ****************************************************************************************************************************/
 
@@ -230,11 +231,11 @@ const Inputs = () => {
 
           {userIsReading && <div>Enter an id to view a single chirp, or leave blank to view all chirps.</div>}
 
-          {!showChirpBox && (
+          {showTextBox && (
             <input id="textBox" className="form-control mt-3" value={textBoxContent} onChange={(e) => handletextBoxContentChange(e)} placeholder="Chirp box!" type="text" />
           )}
-          {!showIDBox && <input id="IDBox" className="form-control mt-3" value={IDBoxContent} onChange={(e) => handleIDBoxContentChange(e)} placeholder="Chirp box!" type="text" />}
-          {!showLocationBox && (
+          {showIDBox && <input id="IDBox" className="form-control mt-3" value={IDBoxContent} onChange={(e) => handleIDBoxContentChange(e)} placeholder="Chirp box!" type="text" />}
+          {showLocationBox && (
             <input
               id="locationBox"
               className="form-control mt-3"
