@@ -28,15 +28,18 @@ const Inputs = () => {
   // ln Conditional render logic for input boxes  **********************************************************************************************/
 
   // evaluates to true when user is reading OR deleting
-  // { !showChirpBox && (chirpBox JSX here)} // used to hide the chirpBox when user is reading or deleting
+  // used to hide the chirpBox when user is reading or deleting
+  // { !showChirpBox && (chirpBox JSX here)}
   let showChirpBox: boolean = userIsReading || userIsDeleting;
 
   // evaluates to true when user is creating
-  // { !showIDBox && (IDBox JSX here)} // used to hide the IDBox when the user is creating
+  // used to hide the IDBox when the user is creating
+  // { !showIDBox && (IDBox JSX here)}
   let showIDBox: boolean = !userIsCreating;
 
   // evaluates to true when user is reading OR deleting
-  // { !showLocationBox && (locationBox JSX here)} // used to hide the locationBox when user is reading or deleting
+  // used to hide the locationBox when user is reading or deleting
+  // { !showLocationBox && (locationBox JSX here)}
   let showLocationBox: boolean = !userIsReading || !userIsDeleting;
 
   // ln Input Boxes  ****************************************************************************************************************************/
@@ -75,27 +78,49 @@ const Inputs = () => {
     return setUserIsDeleting(!userIsDeleting);
   };
 
-  // ln Submit / Cancel Buttons  ****************************************************************************************************************/
+  // ln Submit Button  ****************************************************************************************************************/
 
   const handleSubmitButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Submit will execute each CRUD operation based on which was selected
     e.preventDefault();
 
-    if (textBoxContent) {
-      // If user does not provide content, alert and do not proceed
-      alert("Your Chirp needs more text!");
-      return;
+    // ln CREATE / POST ****************************************************************************************************************/
+
+    if (userIsCreating && checkTextBoxContent() && checkLocationBoxContent()) {
+      // if user is creating, and both textbox and location box have content
+      // do create stuff
     }
 
-    if (locationBoxContent) {
-      // If user does not provide a location, alert and do not proceed
-      alert("Where are you Chirping from?");
-      return;
+    // ln READ / GET ****************************************************************************************************************/
+
+    if (userIsReading) {
+      // if user is reading chirps...
+      if (!IDBoxContent) {
+        // ...and did not provide an id, get all chirps...
+        // do get all chirps stuff
+      } else {
+        // ...Otherwise, get the specified chirp
+        // do get one chirp stuff
+      }
     }
 
-    // do submit stuff here
+    // ln UPDATE / PUT ****************************************************************************************************************/
 
+    if (userIsUpdating && checkIDBoxContent() && checkTextBoxContent() && checkLocationBoxContent()) {
+      // if user is updating, and ALL boxes have content
+      // do update stuff
+    }
+
+    // ln DESTROY / DELETE ****************************************************************************************************************/
+
+    if (userIsDeleting && checkIDBoxContent()) {
+      // if user is deleting, and id box has acceptable content
+      // do destroy stuff
+    }
     clearFieldsAndEnableButtons();
   };
+
+  // ln Cancel Button ************************************************************************************************************************/
 
   const handleCancelButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -123,6 +148,44 @@ const Inputs = () => {
     setTextBoxContent("");
     setIDBoxContent("");
     setLocationBoxContent("");
+  };
+
+  const checkTextBoxContent = (): Boolean => {
+    // helper function to determine if the text box has content
+    if (textBoxContent) {
+      // If user provides content, return true
+      return true;
+    } else {
+      // if user does not provide content, alert and return false
+      alert("Your Chirp needs more text!");
+      return false;
+    }
+  };
+
+  const checkLocationBoxContent = (): Boolean => {
+    // helper function to determine if the location box has content
+    if (locationBoxContent) {
+      // If user provides a location, return true
+      return true;
+    } else {
+      // If user does not provide a location, alert and return false
+      alert("Where are you Chirping from?");
+      return false;
+    }
+  };
+
+  const checkIDBoxContent = (): Boolean => {
+    // helper function to determine if the ID box has acceptable content
+    // isNaN() returns TRUE if the value is Not a Number
+    // !isNaN(Number(IDBoxContent)) converts from a string to a number, since we can only have number IDs
+    if (IDBoxContent && !isNaN(Number(IDBoxContent))) {
+      // if user does provide an id, and it is an acceptable ID, return true
+      return true;
+    } else {
+      // if user does not provide an id, or if it was an unacceptable ID, return false
+      alert("Please enter an ID");
+      return false;
+    }
   };
 
   return (

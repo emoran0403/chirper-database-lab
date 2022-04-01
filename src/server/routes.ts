@@ -75,18 +75,18 @@ router.get("/api/chirps/:id", async (req, res) => {
 router.put("/api/chirps/:id", async (req, res) => {
   try {
     const { id } = req.params; // grab the id from req.params...
-    const { content, location } = req.body; // grab the content from the body...
+    const { content, location } = req.body; // grab the content and location from the body...
 
-    const newChirpInfo = { content, location }; //! need to make this work
+    const newChirpInfo = { content: content, location: location }; //! need to make this work // pack it into an object to send all at once...
 
-    const [results] = await db.Chirps.readOne(Number(id)); // ...and use it as a number later.  We want the first chirp in the array, so we specify the [0] here
+    const [results] = await db.Chirps.readOne(Number(id)); // ...and use the id as a number to get that particular chirp.  We destructure the array to get the first chirp in the array
 
     //* how can we check if there is a response that does not include a chirp?
     // This is how:
     if (results) {
       // if the chirp exists in the database, send it as the response
 
-      const updateResults = await db.Chirps.updateChirp(newChirpInfo, Number(id));
+      const updateResults = await db.Chirps.updateChirp(newChirpInfo, Number(id)); // newChirpInfo contains the new content and location, id specifies the chirp
 
       if (updateResults.affectedRows) {
         res.status(200).json({ message: `Chirp ${id} was updated to show ${content}` });
