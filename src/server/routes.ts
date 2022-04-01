@@ -8,10 +8,9 @@ const router = express.Router();
 //ln CREATE  ********************************************************************************************************************/
 
 // Route for making a chirp
-router.post("/api/chirps/newchirp", async (req, res) => {
+router.post("/api/chirps", async (req, res) => {
   try {
     const { userid, content, location } = req.body;
-    //todo this is where i'll need to use   writeOne = async (userid: number, content: string, location: string)
     const results = await db.Chirps.writeOne(userid, content, location);
 
     res.status(200).json({ message: `New Chirp Added`, ID: results.insertId });

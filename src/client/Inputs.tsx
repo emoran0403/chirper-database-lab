@@ -1,3 +1,4 @@
+import { data } from "jquery";
 import React from "react";
 import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
@@ -90,6 +91,7 @@ const Inputs = () => {
     if (userIsCreating && checkTextBoxContent() && checkLocationBoxContent()) {
       // if user is creating, and both textbox and location box have content
       // do create stuff
+      clearFieldsAndEnableButtons();
     }
 
     // ln READ / GET ****************************************************************************************************************/
@@ -99,9 +101,11 @@ const Inputs = () => {
       if (!IDBoxContent) {
         // ...and did not provide an id, get all chirps...
         // do get all chirps stuff
+        clearFieldsAndEnableButtons();
       } else {
         // ...Otherwise, get the specified chirp
         // do get one chirp stuff
+        clearFieldsAndEnableButtons();
       }
     }
 
@@ -110,15 +114,16 @@ const Inputs = () => {
     if (userIsUpdating && checkIDBoxContent() && checkTextBoxContent() && checkLocationBoxContent()) {
       // if user is updating, and ALL boxes have content
       // do update stuff
+      clearFieldsAndEnableButtons();
     }
 
     // ln DESTROY / DELETE ****************************************************************************************************************/
 
     if (userIsDeleting && checkIDBoxContent()) {
-      // if user is deleting, and id box has acceptable content
-      // do destroy stuff
+      // if user is deleting, and id box has acceptable content, then delete the chirp and clear fields and enable buttons
+      deleteChirp(Number(IDBoxContent));
+      clearFieldsAndEnableButtons();
     }
-    clearFieldsAndEnableButtons();
   };
 
   // ln Cancel Button ************************************************************************************************************************/
@@ -188,6 +193,52 @@ const Inputs = () => {
       return false;
     }
   };
+
+  // ln Fetch Requests  *************************************************************************************************************/
+
+  //! not quite done yet
+  function createChirp() {
+    /**
+   * {
+  "userid": number,
+  "content": "string",
+  "location": "string"
+}
+   */
+    fetch("/api/chirps/", {
+      // use the route:  /api/chirps/ ...
+      method: "POST", // ...send a POST request...
+      headers: {
+        // ...specifying the type of content...
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ userid: 123, content: textBoxContent, location: locationBoxContent }), // ...and deliver the content
+    });
+  }
+
+  //! not done
+  function readSingleChirp(ID: Number): Types.IChirp {
+    // contact /api/chirps
+    fetch(`/api/chirps/${ID}`).then((chirp) => chirp.json());
+    return;
+  }
+
+  //! not done
+  function readAllChirps(): Types.IChirp {
+    // contact /api/chirps
+    fetch(`/api/chirps/`).then((chirps) => chirps.json());
+    return;
+  }
+
+  function updateChirp() {}
+
+  function deleteChirp(ID: number) {
+    // contact /api/chirps/:id with a DELETE request to delete the specified chirp
+    fetch(`/api/chirps/${ID}`, { method: "DELETE" })
+      .then((res) => res.json())
+      // .then((res) => getChirps()) // display the chirps afterwards //! i will need a function for this later
+      .catch((error) => console.log(error));
+  }
 
   return (
     <main className="container">
