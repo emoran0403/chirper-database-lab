@@ -1,20 +1,17 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import * as Types from "../types";
-import Homepage from "./Homepage";
+import Chirps from "./Chirps";
+import Loginpage from "./Loginpage";
 
-/* HOOK REACT EXAMPLE */
 const App = (props: Types.AppProps) => {
   return (
-    <main className="container my-5">
-      <h1 className="text-primary text-center">Hello </h1>
-    </main>
+    <Routes>
+      <Route path="/" element={<Loginpage />} />
+      <Route path="/api/chirps/" element={<Chirps />} />
+    </Routes>
   );
 };
 
 export default App;
-
-<Routes>
-  <Route path="/api" element={<Homepage />} />
-</Routes>;
