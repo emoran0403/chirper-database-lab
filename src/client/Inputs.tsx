@@ -4,7 +4,7 @@ import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import * as Types from "../types";
 
-const Inputs = () => {
+const Inputs = (props: Types.AppProps) => {
   const [textBoxContent, setTextBoxContent] = useState<string>("");
   const [IDBoxContent, setIDBoxContent] = useState<string>("");
   const [locationBoxContent, setLocationBoxContent] = useState<string>("");
@@ -36,7 +36,7 @@ const Inputs = () => {
   // user needs IDbox when reading or updating or deleting, user does not need IDbox when creating
   // { !showIDBox && (IDBox JSX here)}
   // evaluates to true when user does need this rendered
-  let showIDBox: boolean = userIsCreating || userIsUpdating || userIsReading;
+  let showIDBox: boolean = userIsUpdating || userIsReading || userIsDeleting;
 
   // user needs location box when creating or updating, user does not need location box when reading or deleting
   // { !showLocationBox && (locationBox JSX here)}
@@ -283,16 +283,18 @@ const Inputs = () => {
           {userIsReading && <div>Enter an id to view a single chirp, or leave blank to view all chirps.</div>}
 
           {showTextBox && (
-            <input id="textBox" className="form-control mt-3" value={textBoxContent} onChange={(e) => handletextBoxContentChange(e)} placeholder="Chirp box!" type="text" />
+            <input id="textBox" className="form-control mt-3" value={textBoxContent} onChange={(e) => handletextBoxContentChange(e)} placeholder="Chirp here!" type="text" />
           )}
-          {showIDBox && <input id="IDBox" className="form-control mt-3" value={IDBoxContent} onChange={(e) => handleIDBoxContentChange(e)} placeholder="Chirp box!" type="text" />}
+          {showIDBox && (
+            <input id="IDBox" className="form-control mt-3" value={IDBoxContent} onChange={(e) => handleIDBoxContentChange(e)} placeholder="Let me see some ID" type="text" />
+          )}
           {showLocationBox && (
             <input
               id="locationBox"
               className="form-control mt-3"
               value={locationBoxContent}
               onChange={(e) => handleLocationBoxContentChange(e)}
-              placeholder="Chirp box!"
+              placeholder="Where do you chirp from?"
               type="text"
             />
           )}

@@ -5,6 +5,15 @@ export interface IQuery {
 
 export interface AppProps {}
 
+export interface LoginPageProps {
+  username: string;
+  password: string;
+  loggedIn: boolean;
+  handleUsernameChange: Function;
+  handlePasswordChange: Function;
+  handleloggedIn: Function;
+}
+
 export interface IChirp {
   id: number;
   userid: number;

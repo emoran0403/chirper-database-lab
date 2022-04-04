@@ -1,7 +1,7 @@
 import React from "react";
 import * as Types from "../types";
 
-const Timeline = () => {
+const Timeline = (props: Types.AppProps) => {
   return (
     <>
       <div>This is Timeline</div>

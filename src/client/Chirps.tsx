@@ -1,8 +1,9 @@
 import * as React from "react";
 import Inputs from "./Inputs";
 import Timeline from "./Timeline";
+import * as Types from "../types";
 
-const Chirps = () => {
+const Chirps = (props: Types.AppProps) => {
   return (
     <>
       <Inputs />
