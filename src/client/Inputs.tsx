@@ -4,7 +4,7 @@ import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import * as Types from "../types";
 
-const Inputs = (props: Types.AppProps) => {
+const Inputs = (props: Types.InputsProps) => {
   const [textBoxContent, setTextBoxContent] = useState<string>("");
   const [IDBoxContent, setIDBoxContent] = useState<string>("");
   const [locationBoxContent, setLocationBoxContent] = useState<string>("");
@@ -101,6 +101,7 @@ const Inputs = (props: Types.AppProps) => {
       if (!IDBoxContent) {
         // ...and did not provide an id, get all chirps...
         // do get all chirps stuff
+        readAllChirps();
         clearFieldsAndEnableButtons();
       } else {
         // ...Otherwise, get the specified chirp
@@ -195,7 +196,13 @@ const Inputs = (props: Types.AppProps) => {
   };
 
   // ln Fetch Requests  *************************************************************************************************************/
-
+  /**
+   * create
+   * update
+   * read1
+   * readall
+   * delete - done
+   */
   //! not quite done yet
   function createChirp() {
     /**
@@ -226,7 +233,9 @@ const Inputs = (props: Types.AppProps) => {
   //! not done
   function readAllChirps(): Types.IChirp {
     // contact /api/chirps
-    fetch(`/api/chirps/`).then((chirps) => chirps.json());
+    fetch(`/api/chirps/`)
+      .then((res) => res.json())
+      .then((data) => props.handleSetChirpArray(data));
     return;
   }
 

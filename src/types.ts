@@ -14,6 +14,19 @@ export interface LoginPageProps {
   handleloggedIn: Function;
 }
 
+export interface ChirpsProps {
+  handleSetChirpArray?: Function;
+  chirpArray?: IChirp[];
+}
+
+export interface InputsProps {
+  handleSetChirpArray?: Function;
+}
+
+export interface TimelineProps {
+  chirpArray?: IChirp[];
+}
+
 export interface IChirp {
   id: number;
   userid: number;

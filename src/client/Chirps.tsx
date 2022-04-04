@@ -3,11 +3,11 @@ import Inputs from "./Inputs";
 import Timeline from "./Timeline";
 import * as Types from "../types";
 
-const Chirps = (props: Types.AppProps) => {
+const Chirps = (props: Types.ChirpsProps) => {
   return (
     <>
-      <Inputs />
-      <Timeline />
+      <Inputs handleSetChirpArray={props.handleSetChirpArray} />
+      <Timeline chirpArray={props.chirpArray} />
     </>
   );
 };

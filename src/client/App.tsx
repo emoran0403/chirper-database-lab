@@ -10,9 +10,11 @@ const App = (props: Types.AppProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loggedIn, setloggedIn] = useState<boolean>(false);
+  const [chirpArray, setChirpArray] = useState<Types.IChirp[]>([]);
 
   const nav = useNavigate();
 
+  // ln LoginPage Props **************************************************************************************************/
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setUsername(e.target.value);
   };
@@ -23,12 +25,29 @@ const App = (props: Types.AppProps) => {
 
   const handleloggedIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    // if (!username) {
+    //   alert("Please enter your Username");
+    //   return;
+    // }
+    // if (!password) {
+    //   alert("Please enter your passwprd");
+    //   return;
+    // }
+    // if (password.length <= 8) {
+    //   alert("Enter a stronger password");
+    //   return;
+    // }
     // make a call to get all chirps here so that they will show up on the next view
     // navigate to "/api/chirps/" here
     nav("/api/chirps/");
 
     return setloggedIn(!loggedIn);
   };
+
+  // ln Chirps >> Inputs Props **************************************************************************************************/
+  const handleSetChirpArray = () => {};
+
   return (
     <Routes>
       <Route
@@ -44,7 +63,7 @@ const App = (props: Types.AppProps) => {
           />
         }
       />
-      <Route path="/api/chirps/" element={<Chirps />} />
+      <Route path="/api/chirps/" element={<Chirps handleSetChirpArray={handleSetChirpArray} chirpArray={chirpArray} />} />
     </Routes>
   );
 };
