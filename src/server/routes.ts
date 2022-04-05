@@ -47,7 +47,7 @@ router.get("/api/chirps", async (req, res) => {
 router.get("/api/chirps/:id", async (req, res) => {
   try {
     const { id } = req.params; // grab the id from req.params...
-    const [chirp] = await db.Chirps.readOne(Number(id)); // ...and use it as a number later.  We want the first chirp in the array, so we specify the [0] here
+    const [chirp] = await db.Chirps.readOne(Number(id)); // ...and use it as a number later.  We want the first chirp in the array, so we just destructure it to get the first chirp
 
     //* how can we check if there is a response that does not include a chirp?
     // This is how:
@@ -113,18 +113,19 @@ router.put("/api/chirps/:id", async (req, res) => {
 router.delete("/api/chirps/:id", async (req, res) => {
   try {
     const { id } = req.params; // grab the id from req.params...
-    const results = await db.Chirps.deleteChirp(Number(id)); // ...and use it as a number later.  We want the first chirp in the array, so we specify the [0] here
+    db.Chirps.deleteChirpFromMentions(Number(id)); // ...and use it as a number later.
+    db.Chirps.deleteChirpFromChirps(Number(id));
+    res.status(200).json({ message: `Chirp ${id} was deleted` });
 
     //? how can we check if there is a response that does not inclued a chirp?
     // This is how:
-    if (results.affectedRows) {
-      // if the chirp exists in the database, send it as the response
-      res.status(200).json({ message: `Chirp ${id} was deleted` });
-    } else {
-      // if the chirp does not exist, send a 404 error
-      // instead of a mean 404, I want to inform the user that a bad id was entered and to try again
-      res.status(404).json({ message: "does not exist" });
-    }
+    // if (results.affectedRows) {
+    //   // if the chirp exists in the database, send it as the response
+    // } else {
+    //   // if the chirp does not exist, send a 404 error
+    //   // instead of a mean 404, I want to inform the user that a bad id was entered and to try again
+    //   res.status(404).json({ message: "does not exist" });
+    // }
     // returns an array, but we want the first in the array, so we can specify [0] here
   } catch (error) {
     const myError: MysqlError = error;
