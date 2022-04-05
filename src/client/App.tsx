@@ -46,7 +46,9 @@ const App = (props: Types.AppProps) => {
   };
 
   // ln Chirps >> Inputs Props **************************************************************************************************/
-  const handleSetChirpArray = () => {};
+  const handleSetChirpArray = (data: Types.IChirp[]) => {
+    setChirpArray(data);
+  };
 
   return (
     <Routes>

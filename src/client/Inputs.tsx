@@ -100,13 +100,15 @@ const Inputs = (props: Types.InputsProps) => {
       // if user is reading chirps...
       if (!IDBoxContent) {
         // ...and did not provide an id, get all chirps...
-        // do get all chirps stuff
         readAllChirps();
         clearFieldsAndEnableButtons();
       } else {
         // ...Otherwise, get the specified chirp
-        // do get one chirp stuff
-        clearFieldsAndEnableButtons();
+        // checkIDBoxContent() returns true if there is a number entered
+        if (checkIDBoxContent()) {
+          readSingleChirp(Number(IDBoxContent));
+          clearFieldsAndEnableButtons();
+        }
       }
     }
 
@@ -123,6 +125,7 @@ const Inputs = (props: Types.InputsProps) => {
     if (userIsDeleting && checkIDBoxContent()) {
       // if user is deleting, and id box has acceptable content, then delete the chirp and clear fields and enable buttons
       deleteChirp(Number(IDBoxContent));
+      readAllChirps();
       clearFieldsAndEnableButtons();
     }
   };
@@ -226,11 +229,12 @@ const Inputs = (props: Types.InputsProps) => {
   //! not done
   function readSingleChirp(ID: Number): Types.IChirp {
     // contact /api/chirps
-    fetch(`/api/chirps/${ID}`).then((chirp) => chirp.json());
+    fetch(`/api/chirps/${ID}`)
+      .then((chirp) => chirp.json())
+      .then((data) => props.handleSetChirpArray(data));
     return;
   }
 
-  //! not done
   function readAllChirps(): Types.IChirp {
     // contact /api/chirps
     fetch(`/api/chirps/`)
@@ -245,7 +249,6 @@ const Inputs = (props: Types.InputsProps) => {
     // contact /api/chirps/:id with a DELETE request to delete the specified chirp
     fetch(`/api/chirps/${ID}`, { method: "DELETE" })
       .then((res) => res.json())
-      // .then((res) => getChirps()) // display the chirps afterwards //! i will need a function for this later
       .catch((error) => console.log(error));
   }
 
