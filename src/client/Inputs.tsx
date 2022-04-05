@@ -91,6 +91,7 @@ const Inputs = (props: Types.InputsProps) => {
     if (userIsCreating && checkTextBoxContent() && checkLocationBoxContent()) {
       // if user is creating, and both textbox and location box have content
       // do create stuff
+      createChirp();
       clearFieldsAndEnableButtons();
     }
 
@@ -226,7 +227,6 @@ const Inputs = (props: Types.InputsProps) => {
     });
   }
 
-  //! not done
   function readSingleChirp(ID: Number): Types.IChirp {
     // contact /api/chirps
     fetch(`/api/chirps/${ID}`)

@@ -33,7 +33,7 @@ router.get("/api/chirps", async (req, res) => {
       delete chirp.location; // remove the location info from all chirps.  data now an array of chirps without the location property
     });
 
-    res.json(data); // when we go to /api/chirps, we want to make a Chirps query of all chirps
+    res.status(200).json(data); // when we go to /api/chirps, we want to make a Chirps query of all chirps
   } catch (error) {
     const myError: MysqlError = error;
     console.log(`\n`);
@@ -47,15 +47,16 @@ router.get("/api/chirps", async (req, res) => {
 router.get("/api/chirps/:id", async (req, res) => {
   try {
     const { id } = req.params; // grab the id from req.params...
-    const [chirp] = await db.Chirps.readOne(Number(id)); // ...and use it as a number later.  We want the first chirp in the array, so we just destructure it to get the first chirp
+    const chirpArray = await db.Chirps.readOne(Number(id)); // ...and use it as a number later.  We want the first chirp in the array, so we just destructure it to get the first chirp
 
     //* how can we check if there is a response that does not include a chirp?
     // This is how:
-    if (chirp) {
+    if (chirpArray.length) {
       // if the chirp exists in the database, send it as the response
-      res.json(chirp);
+      res.status(200).json(chirpArray);
     } else {
       // if the chirp does not exist, send a 404 error
+
       res.status(404).json({ message: "does not exist" });
     }
     // returns an array, but we want the first in the array, so we can specify [0] here
@@ -113,20 +114,9 @@ router.put("/api/chirps/:id", async (req, res) => {
 router.delete("/api/chirps/:id", async (req, res) => {
   try {
     const { id } = req.params; // grab the id from req.params...
-    db.Chirps.deleteChirpFromMentions(Number(id)); // ...and use it as a number later.
-    db.Chirps.deleteChirpFromChirps(Number(id));
+    await db.Chirps.deleteChirpFromMentions(Number(id)); // ...and delete the corresponding chirp from mentions and chirps.
+    await db.Chirps.deleteChirpFromChirps(Number(id));
     res.status(200).json({ message: `Chirp ${id} was deleted` });
-
-    //? how can we check if there is a response that does not inclued a chirp?
-    // This is how:
-    // if (results.affectedRows) {
-    //   // if the chirp exists in the database, send it as the response
-    // } else {
-    //   // if the chirp does not exist, send a 404 error
-    //   // instead of a mean 404, I want to inform the user that a bad id was entered and to try again
-    //   res.status(404).json({ message: "does not exist" });
-    // }
-    // returns an array, but we want the first in the array, so we can specify [0] here
   } catch (error) {
     const myError: MysqlError = error;
     console.log(`\n`);

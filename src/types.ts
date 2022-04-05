@@ -25,6 +25,7 @@ export interface InputsProps {
 
 export interface TimelineProps {
   chirpArray?: IChirp[];
+  singleChirp?: IChirp;
 }
 
 export interface IChirp {

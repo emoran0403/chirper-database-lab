@@ -21,14 +21,12 @@ const updateChirp = (newChirpInfo: Type.INewChirpInfo, id: number) => Query(`UPD
 
 //*************************  DESTROY  *****************************/
 //    DELETE FROM chirps WHERE id = 3
-const deleteChirpFromMentions = (id: number) => {
-  // a chirp may be located in more than one table, so delete from both starting with mentions since chirps is foreign keyed to mentions
-  Query(`DELETE FROM mentions WHERE chirpid = ?`, [id]);
-};
+// a chirp may be located in more than one table, so delete from both starting with mentions since chirps is foreign keyed to mentions
+const deleteChirpFromMentions = (id: number) => Query(`DELETE FROM mentions WHERE chirpid = ?`, [id]);
 
 const deleteChirpFromChirps = (id: number) => {
   // a chirp may be located in more than one table, so delete from both starting with mentions since chirps is foreign keyed to mentions
-  Query(`DELETE FROM chirps WHERE id = ?`, [id]);
+  return Query(`DELETE FROM chirps WHERE id = ?`, [id]);
 };
 
 export default {
