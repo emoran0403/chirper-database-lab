@@ -20,6 +20,8 @@ const Inputs = (props: Types.InputsProps) => {
   const [showIDBox, setShowIDBox] = useState<boolean>(false); // true to show, false to hide
   const [showLocationBox, setShowLocationBox] = useState<boolean>(false); // true to show, false to hide
 
+  const [userHasIDForUpdate, setUserHasIDForUpdate] = useState<boolean>(false);
+
   // ln Input Boxes  ****************************************************************************************************************************/
 
   const handletextBoxContentChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,9 +56,9 @@ const Inputs = (props: Types.InputsProps) => {
   const handleUserIsUpdating = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setCrudToggle(true);
-    setShowTextBox(true);
+    // setShowTextBox(true);
     setShowIDBox(true);
-    setShowLocationBox(true);
+    // setShowLocationBox(true);
     setUserIsUpdating(!userIsUpdating);
   };
 
@@ -102,9 +104,11 @@ const Inputs = (props: Types.InputsProps) => {
 
     // ln UPDATE / PUT ****************************************************************************************************************/
 
-    if (userIsUpdating && checkIDBoxContent() && checkTextBoxContent() && checkLocationBoxContent()) {
-      // if user is updating, and ALL boxes have content
+    if (userIsUpdating && userHasIDForUpdate && checkTextBoxContent() && checkLocationBoxContent()) {
+      // if user is updating, and boxes have content
       // do update stuff
+      updateChirp();
+      setUserHasIDForUpdate(false);
       clearFieldsAndEnableButtons();
     }
 
@@ -190,12 +194,25 @@ const Inputs = (props: Types.InputsProps) => {
     }
   };
 
+  function getChirpAndStageForEditing(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    if (checkIDBoxContent()) {
+      readSingleChirp(Number(IDBoxContent));
+      setShowTextBox(true);
+      setShowIDBox(false);
+      setShowLocationBox(true);
+      setUserHasIDForUpdate(true);
+      setTextBoxContent(props.chirpArray[0].content);
+      setLocationBoxContent(props.chirpArray[0].location);
+    }
+  }
+
   // ln Fetch Requests  *************************************************************************************************************/
   /**
-   * create
+   * create - done
    * update
-   * read1
-   * readall
+   * read1 - done
+   * readall - done
    * delete - done
    */
   //! not quite done yet
@@ -234,7 +251,17 @@ const Inputs = (props: Types.InputsProps) => {
     return;
   }
 
-  function updateChirp() {}
+  function updateChirp() {
+    fetch("/api/chirps/", {
+      // use the route:  /api/chirps/ ...
+      method: "PUT", // ...send a POST request...
+      headers: {
+        // ...specifying the type of content...
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ content: textBoxContent, location: locationBoxContent }), // ...and deliver the content
+    });
+  }
 
   function deleteChirp(ID: number) {
     // contact /api/chirps/:id with a DELETE request to delete the specified chirp
@@ -253,16 +280,16 @@ const Inputs = (props: Types.InputsProps) => {
 
           {!crudToggle && (
             <>
-              <button id="createBtn" onClick={(e) => handleUserIsCreating(e)} className="btn-primary">
+              <button id="createBtn" onClick={(e) => handleUserIsCreating(e)} className="btn btn-primary mx-1">
                 Create
               </button>
-              <button id="readBtn" onClick={(e) => handleUserIsReading(e)} className="btn-primary">
+              <button id="readBtn" onClick={(e) => handleUserIsReading(e)} className="btn btn-info mx-1">
                 Read
               </button>
-              <button id="updateBtn" onClick={(e) => handleUserIsUpdating(e)} className="btn-primary">
+              <button id="updateBtn" onClick={(e) => handleUserIsUpdating(e)} className="btn btn-warning mx-1">
                 Update
               </button>
-              <button id="deleteBtn" onClick={(e) => handleUserIsDeleting(e)} className="btn-primary">
+              <button id="deleteBtn" onClick={(e) => handleUserIsDeleting(e)} className="btn btn-danger mx-1">
                 Delete
               </button>
             </>
@@ -272,18 +299,29 @@ const Inputs = (props: Types.InputsProps) => {
 
           {crudToggle && (
             <>
-              <button id="submitBtn" onClick={(e) => handleSubmitButton(e)} className="btn-primary">
+              <button id="submitBtn" onClick={(e) => handleSubmitButton(e)} className="btn btn-success mx-1">
                 Submit
               </button>
-              <button id="cancelBtn" onClick={(e) => handleCancelButton(e)} className="btn-primary">
+              <button id="cancelBtn" onClick={(e) => handleCancelButton(e)} className="btn btn-secondary mx-1">
                 Cancel
               </button>
             </>
           )}
 
-          {/*************************************  FORM INPUTS  ***************************************/}
+          {/*************************************  FORM INSTRUCTIONS  ***************************************/}
 
           {userIsReading && <div>Enter an id to view a single chirp, or leave blank to view all chirps.</div>}
+          {userIsUpdating && !userHasIDForUpdate && (
+            <>
+              <div>Enter the id of the chirp you want to edit, then click the Re-Chirp button.</div>
+              <button id="updateIDBtn" className="btn btn-primary" onClick={(e) => getChirpAndStageForEditing(e)}>
+                Re-Chirp
+              </button>
+            </>
+          )}
+          {userHasIDForUpdate && <div>Edit the your chirp below.</div>}
+
+          {/*************************************  FORM INPUTS  ***************************************/}
 
           {showTextBox && (
             <input id="textBox" className="form-control mt-3" value={textBoxContent} onChange={(e) => handletextBoxContentChange(e)} placeholder="Chirp here!" type="text" />

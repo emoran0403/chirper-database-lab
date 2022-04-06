@@ -6,7 +6,7 @@ import * as Types from "../types";
 const Chirps = (props: Types.ChirpsProps) => {
   return (
     <>
-      <Inputs handleSetChirpArray={props.handleSetChirpArray} />
+      <Inputs chirpArray={props.chirpArray} handleSetChirpArray={props.handleSetChirpArray} />
       <Timeline chirpArray={props.chirpArray} />
     </>
   );

@@ -21,6 +21,7 @@ export interface ChirpsProps {
 
 export interface InputsProps {
   handleSetChirpArray?: Function;
+  chirpArray?: IChirp[];
 }
 
 export interface TimelineProps {
