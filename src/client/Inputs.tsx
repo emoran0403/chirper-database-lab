@@ -8,41 +8,17 @@ const Inputs = (props: Types.InputsProps) => {
   const [textBoxContent, setTextBoxContent] = useState<string>("");
   const [IDBoxContent, setIDBoxContent] = useState<string>("");
   const [locationBoxContent, setLocationBoxContent] = useState<string>("");
+
   const [userIsCreating, setUserIsCreating] = useState<boolean>(false);
   const [userIsReading, setUserIsReading] = useState<boolean>(false);
   const [userIsUpdating, setUserIsUpdating] = useState<boolean>(false);
   const [userIsDeleting, setUserIsDeleting] = useState<boolean>(false);
 
-  // ln Conditional render logic for CRUD / Submit / Cancel buttons  ****************************************************************************/
+  const [crudToggle, setCrudToggle] = useState<boolean>(false); // false to show crud buttons, true to show submit/cancel
 
-  // lets us conditionally render the crud buttons - when one CRUD button is clicked, hide all CRUD buttons
-  // evaluates to true when user is doing any CRUD operation
-  // { !crudButtonClicked && ( crud button JSX here)}
-  let crudButtonClicked: boolean = userIsCreating || userIsReading || userIsUpdating || userIsDeleting;
-
-  // lets us conditionally render the submit and cancel buttons - when a CRUD button is clicked, show submit and cancel buttons
-  // submit and cancel button functionality includes resetting crud buttons to false, which shows crud buttons and subsequently hides submit / cancel
-  // evaluates to true when user is doing any CRUD operation
-  // { !hideSubmitCancelButtons && ( submit and cancel JSX here)}
-  let hidingSubmitCancelButtons: boolean = userIsCreating || userIsReading || userIsUpdating || userIsDeleting;
-
-  // ln Conditional render logic for input boxes  **********************************************************************************************/
-
-  // user needs textbox when creating or updating, user does not need textbox when reading or deleting
-  // { !showTextBox && (chirpBox JSX here)}
-  // evaluates to true when user does need this rendered
-  let showTextBox: boolean = userIsCreating || userIsUpdating;
-
-  // user needs IDbox when reading or updating or deleting, user does not need IDbox when creating
-  // { !showIDBox && (IDBox JSX here)}
-  // evaluates to true when user does need this rendered
-  let showIDBox: boolean = userIsUpdating || userIsReading || userIsDeleting;
-
-  // user needs location box when creating or updating, user does not need location box when reading or deleting
-  // { !showLocationBox && (locationBox JSX here)}
-  // evaluates to true when user does need this rendered
-
-  let showLocationBox: boolean = userIsCreating || userIsUpdating;
+  const [showTextBox, setShowTextBox] = useState<boolean>(false); // true to show, false to hide
+  const [showIDBox, setShowIDBox] = useState<boolean>(false); // true to show, false to hide
+  const [showLocationBox, setShowLocationBox] = useState<boolean>(false); // true to show, false to hide
 
   // ln Input Boxes  ****************************************************************************************************************************/
 
@@ -62,22 +38,33 @@ const Inputs = (props: Types.InputsProps) => {
 
   const handleUserIsCreating = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    return setUserIsCreating(!userIsCreating);
+    setCrudToggle(true);
+    setShowTextBox(true);
+    setShowLocationBox(true);
+    setUserIsCreating(!userIsCreating);
   };
 
   const handleUserIsReading = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    return setUserIsReading(!userIsReading);
+    setCrudToggle(true);
+    setShowIDBox(true);
+    setUserIsReading(!userIsReading);
   };
 
   const handleUserIsUpdating = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    return setUserIsUpdating(!userIsUpdating);
+    setCrudToggle(true);
+    setShowTextBox(true);
+    setShowIDBox(true);
+    setShowLocationBox(true);
+    setUserIsUpdating(!userIsUpdating);
   };
 
   const handleUserIsDeleting = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    return setUserIsDeleting(!userIsDeleting);
+    setCrudToggle(true);
+    setShowIDBox(true);
+    setUserIsDeleting(!userIsDeleting);
   };
 
   // ln Submit Button  ****************************************************************************************************************/
@@ -142,7 +129,7 @@ const Inputs = (props: Types.InputsProps) => {
 
   const clearFieldsAndEnableButtons = () => {
     // helper function that clears the input fields and enables buttons
-    clearInputs();
+    clearAndHideInputs();
     enableAllButtons();
   };
 
@@ -152,13 +139,17 @@ const Inputs = (props: Types.InputsProps) => {
     setUserIsReading(false);
     setUserIsUpdating(false);
     setUserIsDeleting(false);
+    setCrudToggle(false);
   };
 
-  const clearInputs = () => {
-    // helper function to clear input fields
+  const clearAndHideInputs = () => {
+    // helper function to clear and hide input fields
     setTextBoxContent("");
+    setShowTextBox(false);
     setIDBoxContent("");
+    setShowIDBox(false);
     setLocationBoxContent("");
+    setShowLocationBox(false);
   };
 
   const checkTextBoxContent = (): Boolean => {
@@ -260,7 +251,7 @@ const Inputs = (props: Types.InputsProps) => {
 
           {/************************************  CRUD BUTTONS  ***************************************/}
 
-          {!crudButtonClicked && (
+          {!crudToggle && (
             <>
               <button id="createBtn" onClick={(e) => handleUserIsCreating(e)} className="btn-primary">
                 Create
@@ -279,7 +270,7 @@ const Inputs = (props: Types.InputsProps) => {
 
           {/*************************************  SUBMIT / CANCEL BUTTONS  ***************************************/}
 
-          {hidingSubmitCancelButtons && (
+          {crudToggle && (
             <>
               <button id="submitBtn" onClick={(e) => handleSubmitButton(e)} className="btn-primary">
                 Submit
