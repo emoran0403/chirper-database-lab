@@ -22,6 +22,15 @@ const Inputs = (props: Types.InputsProps) => {
 
   const [userHasIDForUpdate, setUserHasIDForUpdate] = useState<boolean>(false);
 
+  useEffect(() => {
+    let currentChirp = props.chirpArray[0]; // get the first chirp in the array
+    if (currentChirp) {
+      // if the first chirp in the array exists, set the text and location from that chirp
+      setTextBoxContent(props.chirpArray[0].content);
+      setLocationBoxContent(props.chirpArray[0].location);
+    }
+  }, [props.chirpArray]); // watch for changes in the chirp array
+
   // ln Input Boxes  ****************************************************************************************************************************/
 
   const handletextBoxContentChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -109,6 +118,7 @@ const Inputs = (props: Types.InputsProps) => {
       // do update stuff
       updateChirp();
       setUserHasIDForUpdate(false);
+      // readSingleChirp(Number(IDBoxContent));
       clearFieldsAndEnableButtons();
     }
 
@@ -117,7 +127,6 @@ const Inputs = (props: Types.InputsProps) => {
     if (userIsDeleting && checkIDBoxContent()) {
       // if user is deleting, and id box has acceptable content, then delete the chirp and clear fields and enable buttons
       deleteChirp(Number(IDBoxContent));
-      readAllChirps();
       clearFieldsAndEnableButtons();
     }
   };
@@ -196,14 +205,21 @@ const Inputs = (props: Types.InputsProps) => {
 
   function getChirpAndStageForEditing(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+
     if (checkIDBoxContent()) {
-      readSingleChirp(Number(IDBoxContent));
-      setShowTextBox(true);
-      setShowIDBox(false);
-      setShowLocationBox(true);
-      setUserHasIDForUpdate(true);
-      setTextBoxContent(props.chirpArray[0].content);
-      setLocationBoxContent(props.chirpArray[0].location);
+      // if there is a good id...
+      if (readSingleChirp(Number(IDBoxContent))[0]) {
+        // ... and if the chirp exists
+        // readSingleChirp(Number(IDBoxContent));
+        setShowTextBox(true);
+        setShowIDBox(false);
+        setShowLocationBox(true);
+        setUserHasIDForUpdate(true);
+      } else {
+        //! check here for the shit going wrong
+        // ... otherwise, alert the user and go back
+        clearFieldsAndEnableButtons();
+      }
     }
   }
 
@@ -232,14 +248,25 @@ const Inputs = (props: Types.InputsProps) => {
         "content-type": "application/json",
       },
       body: JSON.stringify({ userid: 123, content: textBoxContent, location: locationBoxContent }), // ...and deliver the content
-    });
+    }).then(() => readAllChirps());
   }
 
   function readSingleChirp(ID: Number): Types.IChirp {
     // contact /api/chirps
     fetch(`/api/chirps/${ID}`)
-      .then((chirp) => chirp.json())
-      .then((data) => props.handleSetChirpArray(data));
+      .then((chirp) => {
+        // console.log(chirp);
+        if (chirp.ok) {
+          return chirp.json();
+        } else {
+          alert("No chirp with that ID found");
+          setShowIDBox(false);
+          throw new Error();
+        }
+      })
+      .then((data) => data.json())
+      .then((data) => props.handleSetChirpArray(data))
+      .catch((error) => console.log(error));
     return;
   }
 
@@ -260,13 +287,30 @@ const Inputs = (props: Types.InputsProps) => {
         "content-type": "application/json",
       },
       body: JSON.stringify({ content: textBoxContent, location: locationBoxContent }), // ...and deliver the content
-    });
+    })
+      .then((chirp) => {
+        console.log("hey look here");
+        console.log(chirp);
+        if (chirp.ok) {
+          return chirp.json();
+        } else {
+          // setUserHasIDForUpdate(false);
+          // clearFieldsAndEnableButtons();
+          console.log("this is super annoying");
+          alert("No chirp with that ID found - this came from wrong edits");
+
+          throw new Error();
+        }
+      })
+      .then(() => readSingleChirp(Number(IDBoxContent)))
+      .catch((error) => console.log(error));
   }
 
   function deleteChirp(ID: number) {
     // contact /api/chirps/:id with a DELETE request to delete the specified chirp
     fetch(`/api/chirps/${ID}`, { method: "DELETE" })
       .then((res) => res.json())
+      .then(() => readAllChirps())
       .catch((error) => console.log(error));
   }
 
