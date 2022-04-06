@@ -11,6 +11,10 @@ const Timeline = (props: Types.TimelineProps) => {
             <div className="card-body">
               <h5 className="card-title">This Chirp says:</h5>
               <div className="card-text">{chirp.content}</div>
+              <hr></hr>
+              <h6 className="card-subtitle">From: {chirp.location}</h6>
+              <h6 className="card-subtitle">By: {chirp.userid}</h6>
+              <h6 className="card-subtitle">By: {chirp.id}</h6>
             </div>
           </div>
         ))}

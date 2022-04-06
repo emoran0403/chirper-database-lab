@@ -29,9 +29,9 @@ router.post("/api/chirps", async (req, res) => {
 router.get("/api/chirps", async (req, res) => {
   try {
     const data = await db.Chirps.readAll();
-    data.forEach((chirp) => {
-      delete chirp.location; // remove the location info from all chirps.  data now an array of chirps without the location property
-    });
+    // data.forEach((chirp) => {
+    //   delete chirp.location; // remove the location info from all chirps.  data now an array of chirps without the location property
+    // });
 
     res.status(200).json(data); // when we go to /api/chirps, we want to make a Chirps query of all chirps
   } catch (error) {

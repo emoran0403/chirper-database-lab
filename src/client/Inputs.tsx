@@ -252,7 +252,7 @@ const Inputs = (props: Types.InputsProps) => {
   }
 
   function updateChirp() {
-    fetch("/api/chirps/", {
+    fetch(`/api/chirps/${IDBoxContent}`, {
       // use the route:  /api/chirps/ ...
       method: "PUT", // ...send a POST request...
       headers: {

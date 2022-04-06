@@ -40,7 +40,7 @@ const App = (props: Types.AppProps) => {
     // }
     // make a call to get all chirps here so that they will show up on the next view
     // navigate to "/api/chirps/" here
-    nav("/api/chirps/");
+    nav("/chirps/");
 
     return setloggedIn(!loggedIn);
   };
@@ -65,7 +65,7 @@ const App = (props: Types.AppProps) => {
           />
         }
       />
-      <Route path="/api/chirps/" element={<Chirps handleSetChirpArray={handleSetChirpArray} chirpArray={chirpArray} />} />
+      <Route path="/chirps/" element={<Chirps handleSetChirpArray={handleSetChirpArray} chirpArray={chirpArray} />} />
     </Routes>
   );
 };
