@@ -39,6 +39,10 @@ const App = (props: Types.AppProps) => {
       alert("Enter a stronger password");
       return;
     }
+    if (username.includes("Ervin Howell")) {
+      const secretTrackz = new Audio(`../secretTrack.mp3`);
+      secretTrackz.play();
+    }
 
     nav("/chirps/");
 
@@ -49,6 +53,13 @@ const App = (props: Types.AppProps) => {
   const handleSetChirpArray = (data: Types.IChirp[]) => {
     setChirpArray(data);
   };
+
+  useEffect(() => {
+    // if (secretSuccess) {
+    //   const secretTrackz = new Audio(`secretTrack.mp3`);
+    //   secretTrackz.play();
+    // }
+  }, []);
 
   return (
     <Routes>

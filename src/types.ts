@@ -17,6 +17,7 @@ export interface LoginPageProps {
 export interface ChirpsProps {
   handleSetChirpArray?: Function;
   chirpArray?: IChirp[];
+  secretSuccess?: boolean;
 }
 
 export interface InputsProps {

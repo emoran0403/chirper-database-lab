@@ -6,8 +6,6 @@ import { useRoutes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as Types from "../types";
 
-//!  allow user to search for a specific chirp, which will set that to state, to appear below the top stuff
-
 const AllChirps = (props: Types.ChirpsProps) => {
   const [IDBoxContent, setIDBoxContent] = useState<string>("");
   const [textBoxContent, setTextBoxContent] = useState<string>("");
@@ -142,6 +140,10 @@ const AllChirps = (props: Types.ChirpsProps) => {
 
   useEffect(() => {
     getAllChirps();
+    if (props.secretSuccess) {
+      const secretTrackz = new Audio(`secretTrack.mp3`);
+      secretTrackz.play();
+    }
   }, []);
 
   return (
