@@ -115,8 +115,13 @@ router.delete("/api/chirps/:id", async (req, res) => {
   try {
     const { id } = req.params; // grab the id from req.params...
     await db.Chirps.deleteChirpFromMentions(Number(id)); // ...and delete the corresponding chirp from mentions and chirps.
-    await db.Chirps.deleteChirpFromChirps(Number(id));
-    res.status(200).json({ message: `Chirp ${id} was deleted` });
+    const DBChirpsResponse = await db.Chirps.deleteChirpFromChirps(Number(id));
+
+    if (DBChirpsResponse.affectedRows) {
+      res.status(200).json({ message: `Chirp ${id} was deleted` });
+    } else {
+      res.status(404).json({ message: `Chirp does not exist` });
+    }
   } catch (error) {
     const myError: MysqlError = error;
     console.log(`\n`);
