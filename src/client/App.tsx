@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import * as Types from "../types";
-import Chirps from "./Chirps";
+import AllChirps from "./AllChirps";
 import Loginpage from "./Loginpage";
 import { useNavigate } from "react-router-dom";
 
@@ -65,7 +65,7 @@ const App = (props: Types.AppProps) => {
           />
         }
       />
-      <Route path="/chirps/" element={<Chirps handleSetChirpArray={handleSetChirpArray} chirpArray={chirpArray} />} />
+      <Route path="/chirps/" element={<AllChirps handleSetChirpArray={handleSetChirpArray} chirpArray={chirpArray} />} />
     </Routes>
   );
 };

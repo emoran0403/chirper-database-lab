@@ -20,8 +20,6 @@ const Inputs = (props: Types.InputsProps) => {
   const [showIDBox, setShowIDBox] = useState<boolean>(false); // true to show, false to hide
   const [showLocationBox, setShowLocationBox] = useState<boolean>(false); // true to show, false to hide
 
-  const [userHasIDForUpdate, setUserHasIDForUpdate] = useState<boolean>(false);
-
   useEffect(() => {
     let currentChirp = props.chirpArray[0]; // get the first chirp in the array
     if (currentChirp) {
@@ -113,11 +111,10 @@ const Inputs = (props: Types.InputsProps) => {
 
     // ln UPDATE / PUT ****************************************************************************************************************/
 
-    if (userIsUpdating && userHasIDForUpdate && checkTextBoxContent() && checkLocationBoxContent()) {
+    if (userIsUpdating && checkTextBoxContent() && checkLocationBoxContent()) {
       // if user is updating, and boxes have content
       // do update stuff
       updateChirp();
-      setUserHasIDForUpdate(false);
       // readSingleChirp(Number(IDBoxContent));
       clearFieldsAndEnableButtons();
     }
@@ -208,13 +205,12 @@ const Inputs = (props: Types.InputsProps) => {
 
     if (checkIDBoxContent()) {
       // if there is a good id...
-      if (readSingleChirp(Number(IDBoxContent))[0]) {
+      let chirpOfInterest = readSingleChirp(Number(IDBoxContent))[0];
+      if (chirpOfInterest) {
         // ... and if the chirp exists
-        // readSingleChirp(Number(IDBoxContent));
         setShowTextBox(true);
         setShowIDBox(false);
         setShowLocationBox(true);
-        setUserHasIDForUpdate(true);
       } else {
         //! check here for the shit going wrong
         // ... otherwise, alert the user and go back
@@ -294,8 +290,7 @@ const Inputs = (props: Types.InputsProps) => {
         if (chirp.ok) {
           return chirp.json();
         } else {
-          // setUserHasIDForUpdate(false);
-          // clearFieldsAndEnableButtons();
+          clearFieldsAndEnableButtons();
           console.log("this is super annoying");
           alert("No chirp with that ID found - this came from wrong edits");
 
@@ -355,7 +350,7 @@ const Inputs = (props: Types.InputsProps) => {
           {/*************************************  FORM INSTRUCTIONS  ***************************************/}
 
           {userIsReading && <div>Enter an id to view a single chirp, or leave blank to view all chirps.</div>}
-          {userIsUpdating && !userHasIDForUpdate && (
+          {userIsUpdating && (
             <>
               <div>Enter the id of the chirp you want to edit, then click the Re-Chirp button.</div>
               <button id="updateIDBtn" className="btn btn-primary" onClick={(e) => getChirpAndStageForEditing(e)}>
@@ -363,7 +358,7 @@ const Inputs = (props: Types.InputsProps) => {
               </button>
             </>
           )}
-          {userHasIDForUpdate && <div>Edit the your chirp below.</div>}
+          {/* {<div>Edit the your chirp below.</div>} */}
 
           {/*************************************  FORM INPUTS  ***************************************/}
 
