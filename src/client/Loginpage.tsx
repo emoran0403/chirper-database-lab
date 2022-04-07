@@ -8,8 +8,8 @@ const Loginpage = (props: Types.LoginPageProps) => {
       <div className="card bg-light shadow col-md-4">
         <div className="card-body d-flex flex-wrap justify-content-center">
           <h5 className="card-title text-center col-md-7">Please log in</h5>
-          <input type="text" value={props.username} className="form-control col-md-7 mb-1" onChange={(e) => props.handleUsernameChange(e)} />
-          <input type="password" value={props.password} className="form-control col-md-7 mt-1" onChange={(e) => props.handlePasswordChange(e)} />
+          <input placeholder="Username" type="text" value={props.username} className="form-control col-md-7 mb-1" onChange={(e) => props.handleUsernameChange(e)} />
+          <input placeholder="Password" type="password" value={props.password} className="form-control col-md-7 mt-1" onChange={(e) => props.handlePasswordChange(e)} />
           <button className="btn btn-primary my-2 ms-2 col-md-7" type="button" onClick={(e) => props.handleloggedIn(e)}>
             Login
           </button>

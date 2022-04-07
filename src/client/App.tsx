@@ -27,20 +27,19 @@ const App = (props: Types.AppProps) => {
   const handleloggedIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    // if (!username) {
-    //   alert("Please enter your Username");
-    //   return;
-    // }
-    // if (!password) {
-    //   alert("Please enter your passwprd");
-    //   return;
-    // }
-    // if (password.length <= 8) {
-    //   alert("Enter a stronger password");
-    //   return;
-    // }
-    // make a call to get all chirps here so that they will show up on the next view
-    // navigate to "/api/chirps/" here
+    if (!username) {
+      alert("Please enter your Username");
+      return;
+    }
+    if (!password) {
+      alert("Please enter your passwprd");
+      return;
+    }
+    if (password.length <= 8) {
+      alert("Enter a stronger password");
+      return;
+    }
+
     nav("/chirps/");
 
     return setloggedIn(!loggedIn);

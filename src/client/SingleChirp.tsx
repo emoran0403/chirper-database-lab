@@ -118,11 +118,13 @@ const SingleChirp = (props: Types.InputsProps) => {
             <button className="btn btn-primary my-2 mx-2" onClick={() => nav("/chirps/")}>
               Go back
             </button>
+
             {!editButtonWasPressed && (
               <button className="btn btn-warning my-2 mx-2" onClick={() => handleSetEditButtonWasPressed()}>
                 Edit this Chirp
               </button>
             )}
+
             {editButtonWasPressed && (
               <button className="btn btn-success my-2 mx-2" onClick={() => editChirp()}>
                 Submit Edit
