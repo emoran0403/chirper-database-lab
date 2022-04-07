@@ -3,6 +3,7 @@ import React from "react";
 import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import { useRoutes } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Types from "../types";
 
 //!  allow user to search for a specific chirp, which will set that to state, to appear below the top stuff
@@ -187,6 +188,9 @@ const AllChirps = (props: Types.ChirpsProps) => {
                   <h6 className="card-subtitle">From: {chirp.location}</h6>
                   <h6 className="card-subtitle">UserID: {chirp.userid}</h6>
                   <h6 className="card-subtitle">Chirp ID: {chirp.id}</h6>
+                  <Link className="btn btn-warning btn-sm" to={`/chirps/${chirp.id}`}>
+                    Manage Chirp
+                  </Link>
                 </div>
               </div>
             ))}

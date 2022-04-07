@@ -5,6 +5,7 @@ import * as Types from "../types";
 import AllChirps from "./AllChirps";
 import Loginpage from "./Loginpage";
 import { useNavigate } from "react-router-dom";
+import SingleChirp from "./SingleChirp";
 
 const App = (props: Types.AppProps) => {
   const [username, setUsername] = useState<string>("");
@@ -66,6 +67,7 @@ const App = (props: Types.AppProps) => {
         }
       />
       <Route path="/chirps/" element={<AllChirps handleSetChirpArray={handleSetChirpArray} chirpArray={chirpArray} />} />
+      <Route path="/chirps/:id" element={<SingleChirp handleSetChirpArray={handleSetChirpArray} chirpArray={chirpArray} />} />
     </Routes>
   );
 };
