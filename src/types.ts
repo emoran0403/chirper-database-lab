@@ -42,3 +42,5 @@ export interface INewChirpInfo {
   content: string;
   location: string;
 }
+
+export interface NewChirpProps {}
