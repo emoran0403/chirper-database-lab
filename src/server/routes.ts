@@ -1,7 +1,6 @@
 import * as express from "express";
 import db from "./db";
 import { MysqlError } from "mysql";
-import { Type } from "typescript";
 
 const router = express.Router();
 

@@ -1,9 +1,7 @@
-import e from "express";
-import { data } from "jquery";
 import React from "react";
 import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
-import { useRoutes, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import * as Types from "../types";
 
 const SingleChirp = (props: Types.InputsProps) => {

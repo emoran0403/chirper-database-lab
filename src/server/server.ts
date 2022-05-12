@@ -6,10 +6,10 @@ const app = express();
 
 app.use(express.static("public")); // send public directory to client
 app.use(express.json()); // allows for req.body parsing
-
 app.use(apiRouter); // sets up the routes
 
 const clientPaths = ["/", "/chirps/"];
+
 app.use(clientPaths, (req, res) => res.sendFile(path.join(__dirname, "../public/index.html")));
 
 app.use("/api/*", (req, res) => res.sendStatus(404).json({ message: "oops, bad route" }));
