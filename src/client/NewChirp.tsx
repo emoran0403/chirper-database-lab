@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import * as Types from "../types";
 import { emptyStringChecker } from "./Utils/Input_Validation";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,9 @@ const NewChirp = (props: Types.NewChirpProps) => {
           res.json().then((data) => {
             // parse as JSON data, then with that data
             if (res.ok) {
-              // if there was an OK response, navigate to /chirps/
+              // if there was an OK response, navigate to /chirps/ and clear out the input fields
+              setTextBoxContent("");
+              setLocationBoxContent("");
               nav("/chirps/");
             } else {
               // if there was not an OK response
@@ -36,9 +38,9 @@ const NewChirp = (props: Types.NewChirpProps) => {
           });
         })
         .catch((error) => console.log(error));
+    } else {
+      alert("Please check your input");
     }
-    setTextBoxContent("");
-    setLocationBoxContent("");
   }
 
   return (

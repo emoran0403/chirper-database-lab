@@ -1,16 +1,18 @@
 import React from "react";
 import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import * as Types from "../types";
 
 const SingleChirp = (props: Types.InputsProps) => {
-  const { id } = useParams(); // we just need the id from the useParams object, so we can destructure it
   const [chirp, setChirp] = useState<Types.IChirp>(null);
   const [editButtonWasPressed, setEditButtonWasPressed] = useState<boolean>(false);
   const [textBoxContent, setTextBoxContent] = useState<string>("");
   const [locationBoxContent, setLocationBoxContent] = useState<string>("");
   const nav = useNavigate();
+  const loc = useLocation();
+
+  const CHIRP = loc.state as Types.IChirp;
 
   const handleSetEditButtonWasPressed = () => {
     setEditButtonWasPressed(!editButtonWasPressed);
@@ -28,7 +30,7 @@ const SingleChirp = (props: Types.InputsProps) => {
 
   function editChirp() {
     setEditButtonWasPressed(false);
-    fetch(`/api/chirps/${id}`, {
+    fetch(`/api/chirps/${CHIRP.id}`, {
       // use the route:  /api/chirps/ ...
       method: "PUT", // ...send a POST request...
       headers: {
@@ -54,10 +56,8 @@ const SingleChirp = (props: Types.InputsProps) => {
       .catch((error) => console.log(error));
   }
 
-  //!  check hte video for how to delte then send back to the all chirops view
   function deleteChirp() {
-    // contact /api/chirps/:id with a DELETE request to delete the specified chirp
-    fetch(`/api/chirps/${id}`, { method: "DELETE" })
+    fetch(`/api/chirps/${CHIRP.id}`, { method: "DELETE" })
       .then((res) => {
         res.json().then((data) => {
           if (res.ok) {
@@ -71,7 +71,7 @@ const SingleChirp = (props: Types.InputsProps) => {
   }
 
   const getThisChirp = () => {
-    fetch(`/api/chirps/${id}`).then((res) => {
+    fetch(`/api/chirps/${Number(CHIRP.id)}`).then((res) => {
       // then with that response
       res.json().then((data) => {
         // parse as JSON data, then with that data
@@ -86,10 +86,6 @@ const SingleChirp = (props: Types.InputsProps) => {
     });
   };
 
-  useEffect(() => {
-    getThisChirp();
-  }, [id]);
-
   return (
     <>
       <div className="d-flex justify-content-center">
@@ -97,15 +93,15 @@ const SingleChirp = (props: Types.InputsProps) => {
           <div className="card-body">
             {!editButtonWasPressed && (
               <>
-                <div className="card-title">Chirp ID: {chirp?.id}</div>
+                <div className="card-title">Chirp ID: {CHIRP.id}</div>
                 <hr />
-                <div className="card-text">{chirp?.content}</div>
-                <div className="card-text">{chirp?.location}</div>
+                <div className="card-text">{CHIRP.content}</div>
+                <div className="card-text">{CHIRP.location}</div>
               </>
             )}
             {editButtonWasPressed && (
               <>
-                <div className="card-title">Chirp ID: {chirp?.id}</div>
+                <div className="card-title">Chirp ID: {CHIRP.id}</div>
                 <hr />
                 <input value={textBoxContent} onChange={(e) => handletextBoxContentChange(e)} className="form-control" />
                 <input value={locationBoxContent} onChange={(e) => handleLocationBoxContentChange(e)} className="form-control" />
