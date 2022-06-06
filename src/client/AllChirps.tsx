@@ -81,10 +81,10 @@ const AllChirps = (props: Types.ChirpsProps) => {
           <div>Chirpline</div>
           <div className="d-flex flex-wrap justify-content-around">
             {chirpArray.map((chirp) => (
-              <div key={`chirp-${chirp.id}`} className="card col-md-2">
+              <div key={`chirp-${chirp.id}`} className="card col-md-1">
                 <div className="card-body">
                   <h5 className="card-title">This Chirp says:</h5>
-                  <div className="card-text">{chirp.content}</div>
+                  <div className="card-text">{chirp.content?.substring(0, 10) + "..."}</div>
                   <hr></hr>
                   <h6 className="card-subtitle">From: {chirp.location}</h6>
                   <h6 className="card-subtitle">UserID: {chirp.userid}</h6>
