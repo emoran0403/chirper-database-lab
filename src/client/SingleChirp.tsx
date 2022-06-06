@@ -129,6 +129,9 @@ const SingleChirp = (props: Types.InputsProps) => {
                 Delete this Chirp
               </button>
             )}
+            <button className="btn btn-info my-2 mx-2" onClick={() => alert(`Are you sure you want to?`)}>
+              Interact!
+            </button>
           </div>
         </div>
       </div>
