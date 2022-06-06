@@ -89,9 +89,14 @@ const AllChirps = (props: Types.ChirpsProps) => {
                   <h6 className="card-subtitle">From: {chirp.location}</h6>
                   <h6 className="card-subtitle">UserID: {chirp.userid}</h6>
                   <h6 className="card-subtitle">Chirp ID: {chirp.id}</h6>
-                  <Link className="btn btn-warning btn-sm" to={`/chirps/${chirp.id}`}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      nav(`/chirps/${chirp.id}`, { state: { ...chirp } });
+                    }}
+                  >
                     Manage Chirp
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}

@@ -16,8 +16,8 @@ const SingleChirp = (props: Types.InputsProps) => {
 
   const handleSetEditButtonWasPressed = () => {
     setEditButtonWasPressed(!editButtonWasPressed);
-    setTextBoxContent(chirp.content);
-    setLocationBoxContent(chirp.location);
+    setTextBoxContent(CHIRP.content);
+    setLocationBoxContent(CHIRP.location);
   };
 
   const handletextBoxContentChange = (e: ChangeEvent<HTMLInputElement>) => {
