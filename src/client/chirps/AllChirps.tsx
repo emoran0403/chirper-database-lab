@@ -2,9 +2,9 @@ import React from "react";
 import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import * as Types from "../types";
+import * as Types from "../../types";
 import NewChirp from "./NewChirp";
-import { intChecker } from "./Utils/Input_Validation";
+import { intChecker } from "../Utils/Input_Validation";
 
 const AllChirps = (props: Types.ChirpsProps) => {
   const [IDBoxContent, setIDBoxContent] = useState<string>("");
@@ -76,6 +76,8 @@ const AllChirps = (props: Types.ChirpsProps) => {
         <button className="btn btn-primary" onClick={() => goToSingleChirp()}>
           See Chirp!
         </button>
+        <div>Total Upvotes</div>
+        <div>Total Downvotes</div>
 
         <div>
           <div>Chirpline</div>

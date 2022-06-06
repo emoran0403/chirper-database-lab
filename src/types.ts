@@ -1,3 +1,5 @@
+import store from "./client/redux/store";
+
 export interface IQuery {
   query: string;
   values?: Array<string | number>;
@@ -36,3 +38,8 @@ export interface INewChirpInfo {
 }
 
 export interface NewChirpProps {}
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>;
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch;

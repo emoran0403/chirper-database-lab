@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import * as Types from "../types";
-import { emptyStringChecker } from "./Utils/Input_Validation";
+import * as Types from "../../types";
+import { emptyStringChecker } from "../Utils/Input_Validation";
 import { useNavigate } from "react-router-dom";
 
 const NewChirp = (props: Types.NewChirpProps) => {

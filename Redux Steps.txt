@@ -1,0 +1,29 @@
+//!Install modules:
+npm install @reduxjs/toolkit react-redux
+//!Install typings:
+npm i @types/react-redux
+
+//!Add these typings: /types.ts
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+
+//!Define typed hooks: /redux/hooks.ts
+
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import type { RootState, AppDispatch } from "../../types";
+
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+
+//!Provide the Redux Store to React in index.tsx
+import store from 'store/file/here'
+import { Provider } from 'react-redux'
+
+//!Wrap app in the Provider component
+
+<Provider store={store}>
+    <App />
+  </Provider>,

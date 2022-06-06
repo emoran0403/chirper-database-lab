@@ -2,7 +2,7 @@ import React from "react";
 import { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import * as Types from "../types";
+import * as Types from "../../types";
 
 const SingleChirp = (props: Types.InputsProps) => {
   const [chirp, setChirp] = useState<Types.IChirp>(null);
@@ -91,6 +91,7 @@ const SingleChirp = (props: Types.InputsProps) => {
       <div className="d-flex justify-content-center">
         <div className="card col-md-6">
           <div className="card-body">
+            <div>The votes for this individual chirp will display here: </div>
             {!editButtonWasPressed && (
               <>
                 <div className="card-title">Chirp ID: {CHIRP.id}</div>
@@ -130,7 +131,10 @@ const SingleChirp = (props: Types.InputsProps) => {
               </button>
             )}
             <button className="btn btn-info my-2 mx-2" onClick={() => alert(`Are you sure you want to?`)}>
-              Interact!
+              Upvote
+            </button>
+            <button className="btn btn-info my-2 mx-2" onClick={() => alert(`Are you sure you want to?`)}>
+              Downvote
             </button>
           </div>
         </div>

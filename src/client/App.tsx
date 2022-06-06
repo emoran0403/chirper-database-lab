@@ -2,9 +2,9 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import * as Types from "../types";
-import AllChirps from "./AllChirps";
+import AllChirps from "./chirps/AllChirps";
 import Loginpage from "./Loginpage";
-import SingleChirp from "./SingleChirp";
+import SingleChirp from "./chirps/SingleChirp";
 
 const App = (props: Types.AppProps) => {
   const [chirpArray, setChirpArray] = useState<Types.IChirp[]>([]);
